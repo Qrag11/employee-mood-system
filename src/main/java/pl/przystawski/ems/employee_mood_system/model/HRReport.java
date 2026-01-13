@@ -2,6 +2,7 @@ package pl.przystawski.ems.employee_mood_system.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.przystawski.ems.employee_mood_system.enums.ActionType;
 import pl.przystawski.ems.employee_mood_system.enums.Status;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class HRReport {
 
     @Id
