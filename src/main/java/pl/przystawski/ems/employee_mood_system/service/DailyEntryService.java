@@ -1,6 +1,7 @@
 package pl.przystawski.ems.employee_mood_system.service;
 
 import org.springframework.stereotype.Service;
+import pl.przystawski.ems.employee_mood_system.dto.request.DailyEntryRequest;
 import pl.przystawski.ems.employee_mood_system.model.DailyEntry;
 import pl.przystawski.ems.employee_mood_system.model.Employee;
 import pl.przystawski.ems.employee_mood_system.repository.DailyEntryRepository;
@@ -17,20 +18,19 @@ public class DailyEntryService {
     }
 
 
-    public DailyEntry addOrUpdateDailyEntry(Employee employee, DailyEntry dailyEntry){
-        LocalDate today = LocalDate.now();
+    public DailyEntry addOrUpdateDailyEntry(
+            Employee employee,
+            DailyEntryRequest request
+    ) {
+        DailyEntry entry = dailyEntryRepository.findByEmployeeAndEntryDate(employee, LocalDate.now())
+                .orElse(new DailyEntry());
 
-        return dailyEntryRepository
-                .findByEmployeeAndEntryDate(employee, today)
-                .map(existingEntry -> {
-                    existingEntry.setMoodScore(dailyEntry.getMoodScore());
-                    existingEntry.setComfortScore(dailyEntry.getComfortScore());
-                    existingEntry.setWorkloadScore(dailyEntry.getWorkloadScore());
-                    return dailyEntryRepository.save(existingEntry);
-                }).orElseGet(() -> {
-                        dailyEntry.setEmployee(employee);
-                        dailyEntry.setEntryDate(today);
-                        return dailyEntryRepository.save(dailyEntry);
-                });
+        entry.setEmployee(employee);
+        entry.setEntryDate(LocalDate.now());
+        entry.setMoodScore(request.getMoodScore());
+        entry.setWorkloadScore(request.getWorkloadScore());
+        entry.setComfortScore(request.getComfortScore());
+
+        return  dailyEntryRepository.save(entry);
     }
 }
