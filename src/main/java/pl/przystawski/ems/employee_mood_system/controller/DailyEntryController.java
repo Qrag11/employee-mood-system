@@ -1,7 +1,6 @@
 package pl.przystawski.ems.employee_mood_system.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +24,6 @@ public class DailyEntryController {
     @PostMapping
     public DailyEntry addDailyEntry(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody DailyEntry dailyEntry){
         Employee employee = customUserDetails.getEmployee();
-        return dailyEntryService.addDailyEntry(employee, dailyEntry);
+        return dailyEntryService.addOrUpdateDailyEntry(employee, dailyEntry);
     }
 }

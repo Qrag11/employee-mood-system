@@ -36,4 +36,17 @@ public class CustomUserDetails implements UserDetails{
                 new SimpleGrantedAuthority("ROLE_" + employee.getRole().name())
         );
     }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
+
 }

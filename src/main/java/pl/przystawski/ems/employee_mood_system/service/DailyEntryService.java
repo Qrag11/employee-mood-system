@@ -17,9 +17,20 @@ public class DailyEntryService {
     }
 
 
-    public DailyEntry addDailyEntry(Employee employee, DailyEntry dailyEntry){
-        dailyEntry.setEntryDate(LocalDate.now());
-        dailyEntry.setEmployee(employee);
-        return dailyEntryRepository.save(dailyEntry);
+    public DailyEntry addOrUpdateDailyEntry(Employee employee, DailyEntry dailyEntry){
+        LocalDate today = LocalDate.now();
+
+        return dailyEntryRepository
+                .findByEmployeeAndEntryDate(employee, today)
+                .map(existingEntry -> {
+                    existingEntry.setMoodScore(dailyEntry.getMoodScore());
+                    existingEntry.setComfortScore(dailyEntry.getComfortScore());
+                    existingEntry.setWorkloadScore(dailyEntry.getWorkloadScore());
+                    return dailyEntryRepository.save(existingEntry);
+                }).orElseGet(() -> {
+                        dailyEntry.setEmployee(employee);
+                        dailyEntry.setEntryDate(today);
+                        return dailyEntryRepository.save(dailyEntry);
+                });
     }
 }
