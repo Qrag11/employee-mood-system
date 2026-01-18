@@ -11,7 +11,7 @@ import pl.przystawski.ems.employee_mood_system.model.Employee;
 import pl.przystawski.ems.employee_mood_system.service.DailyEntryService;
 
 @RestController
-@RequestMapping("/dailyEntry")
+@RequestMapping("/api/dailyEntry")
 public class DailyEntryController {
 
     private final DailyEntryService dailyEntryService;

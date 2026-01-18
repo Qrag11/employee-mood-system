@@ -21,12 +21,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
-        http.authorizeHttpRequests(authorizeHttpRequests ->
-                authorizeHttpRequests
-                        .anyRequest().permitAll()
-        ).formLogin(Customizer.withDefaults());
+        http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/**")
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/**").hasAnyRole("HR", "EMPLOYEE")
+                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
-
     }
 }

@@ -1,11 +1,11 @@
 package pl.przystawski.ems.employee_mood_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.przystawski.ems.employee_mood_system.enums.Role;
 
+import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +20,15 @@ public class Employee {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private  String email;
+    private   String email;
 
+    @JsonIgnore
     @Column(nullable = false)
-    private String password;
+    private  String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private  Role role;
 
     private String department;
 
