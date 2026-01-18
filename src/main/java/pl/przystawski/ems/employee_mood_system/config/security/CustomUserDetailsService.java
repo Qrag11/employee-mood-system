@@ -17,7 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username){
-        System.out.println("🔐 Loading user: " + username);
         Employee employee = employeeRepository.findByEmail(username).orElseThrow(() ->
                 new UsernameNotFoundException("employee not find"));
         return new CustomUserDetails(employee);
