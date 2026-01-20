@@ -30,7 +30,8 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/daily-entry", true))
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();

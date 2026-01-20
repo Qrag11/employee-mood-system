@@ -7,6 +7,7 @@ import pl.przystawski.ems.employee_mood_system.model.Employee;
 import pl.przystawski.ems.employee_mood_system.repository.DailyEntryRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class DailyEntryService {
@@ -32,5 +33,9 @@ public class DailyEntryService {
         entry.setComfortScore(request.getComfortScore());
 
         return  dailyEntryRepository.save(entry);
+    }
+
+    public List<DailyEntry> getUserHistory(Employee employee){
+        return dailyEntryRepository.findAllByEmployeeOrderByEntryDateDesc(employee);
     }
 }

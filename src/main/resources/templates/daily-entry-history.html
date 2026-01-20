@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Entry History</title>
+    <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
+</head>
+<body>
+
+<h1>Your Daily Entries</h1>
+
+<div th:if="${#lists.isEmpty(entries)}">
+    <p>No entries yet.</p>
+</div>
+
+<table th:if="${!#lists.isEmpty(entries)}">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Mood</th>
+        <th>Workload</th>
+        <th>Comfort</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="entry : ${entries}"
+        th:classappend="${entry.entryDate == T(java.time.LocalDate).now()} ? 'today'">
+
+        <td th:text="${#temporals.format(entry.entryDate, 'dd.MM.yyyy')}"></td>
+        <td th:text="${entry.moodScore}"></td>
+        <td th:text="${entry.workloadScore}"></td>
+        <td th:text="${entry.comfortScore}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/daily-entry}">Back</a>
+
+</body>
+</html>

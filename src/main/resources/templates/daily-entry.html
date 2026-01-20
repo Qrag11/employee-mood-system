@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Entry</title>
+    <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
+
+</head>
+<body>
+
+    <h1>Daily Entry</h1>
+
+    <form th:action="@{/daily-entry}" th:object="${entry}" method="post">
+
+        <div class="form-group">
+            <label>Mood (1–10)</label>
+            <input type="number" th:field="*{moodScore}" min="1" max="10">
+            <div class="error" th:if="${#fields.hasErrors('moodScore')}" th:errors="*{moodScore}"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Workload (1–10)</label>
+            <input type="number" th:field="*{workloadScore}" min="1" max="10">
+            <div class="error" th:if="${#fields.hasErrors('workloadScore')}" th:errors="*{workloadScore}"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Comfort (1–10)</label>
+            <input type="number" th:field="*{comfortScore}" min="1" max="10">
+            <div class="error" th:if="${#fields.hasErrors('comfortScore')}" th:errors="*{comfortScore}"></div>
+        </div>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <div class="actions">
+        <a th:href="@{/daily-entry/history}">History</a>
+    </div>
+
+
+</body>
+
+
