@@ -1,5 +1,6 @@
 package pl.przystawski.ems.employee_mood_system.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.przystawski.ems.employee_mood_system.dto.request.DailyEntryRequest;
 import pl.przystawski.ems.employee_mood_system.model.DailyEntry;
@@ -10,13 +11,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DailyEntryService {
 
     private final DailyEntryRepository dailyEntryRepository;
 
-    public DailyEntryService(DailyEntryRepository dailyEntryRepository) {
-        this.dailyEntryRepository = dailyEntryRepository;
-    }
+
 
 
     public DailyEntry addOrUpdateDailyEntry(

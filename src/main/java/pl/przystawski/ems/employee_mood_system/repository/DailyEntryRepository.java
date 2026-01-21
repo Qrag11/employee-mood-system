@@ -12,4 +12,10 @@ public interface DailyEntryRepository extends JpaRepository<DailyEntry, Long> {
     Optional<DailyEntry> findByEmployeeAndEntryDate(Employee employee, LocalDate entryDate);
 
     List<DailyEntry> findAllByEmployeeOrderByEntryDateDesc(Employee employee);
+
+    List<DailyEntry> findAllByEmployeeAndEntryDateBetween(
+            Employee employee,
+            LocalDate formDate,
+            LocalDate toDate
+    );
 }

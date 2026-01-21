@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>HR – Analiza nastroju pracownika</h1>
+
+    <form th:action="@{/hr-dashboard}"
+          th:object="${form}"
+          method="post">
+
+        <!-- PRACOWNIK -->
+        <div class="form-group">
+            <label>Pracownik</label>
+            <select th:field="*{employeeId}">
+                <option value="">-- wybierz pracownika --</option>
+                <option th:each="emp : ${employees}"
+                        th:value="${emp.id}"
+                        th:text="${emp.email}">
+                </option>
+            </select>
+            <div class="error" th:errors="*{employeeId}"></div>
+        </div>
+
+        <!-- DATA OD -->
+        <div class="form-group">
+            <label>Od</label>
+            <input type="date" th:field="*{fromDate}">
+            <div class="error" th:errors="*{fromDate}"></div>
+        </div>
+
+        <!-- DATA DO -->
+        <div class="form-group">
+            <label>Do</label>
+            <input type="date" th:field="*{toDate}">
+            <div class="error" th:errors="*{toDate}"></div>
+        </div>
+
+        <button type="submit">Analizuj</button>
+    </form>
+
+    <!-- WYNIKI -->
+    <div th:if="${entries != null}">
+        <h2>
+            Wyniki od
+            <span th:text="${#temporals.format(fromDate, 'dd.MM.yyyy')}"></span>
+            do
+            <span th:text="${#temporals.format(toDate, 'dd.MM.yyyy')}"></span>
+        </h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Mood</th>
+                <th>Workload</th>
+                <th>Comfort</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${entries}">
+                <td th:text="${#temporals.format(entry.entryDate, 'dd.MM.yyyy')}"></td>
+                <td th:text="${entry.moodScore}"></td>
+                <td th:text="${entry.workloadScore}"></td>
+                <td th:text="${entry.comfortScore}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
