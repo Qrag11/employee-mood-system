@@ -26,8 +26,9 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/api/**")
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").hasAnyRole("HR", "EMPLOYEE")
+                        .requestMatchers("/api/**", "/employee/**").hasAnyRole("HR", "EMPLOYEE")
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/hr-dashboard/**").hasRole("HR")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

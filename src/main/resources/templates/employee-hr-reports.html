@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My HR Reports</title>
+    <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>My HR Reports</h1>
+        <a class="back-link" th:href="@{/daily-entry}">← Back to daily entries</a>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+            <tr>
+                <th>Action</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="report : ${reports}">
+                <td th:text="${report.actionType}"></td>
+
+                <td>
+                    <span class="status"
+                          th:classappend="'status-' + ${report.status}">
+                        <span th:text="${report.status}"></span>
+                    </span>
+                </td>
+
+                <td th:text="${#temporals.format(report.createdAt, 'dd.MM.yyyy')}"></td>
+                <td th:text="${report.analysisFromDate}"></td>
+                <td th:text="${report.analysisToDate}"></td>
+                <td class="description" th:text="${report.description}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

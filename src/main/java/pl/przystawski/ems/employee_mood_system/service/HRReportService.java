@@ -67,4 +67,8 @@ public class HRReportService {
 
         report.setStatus(status);
     }
+
+    public List<HRReport> findByEmployeeEmail(String email){
+        return hrReportRepository.findByEmployeeEmail(email);
+    }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.przystawski.ems.employee_mood_system.enums.AlertType;
 import pl.przystawski.ems.employee_mood_system.enums.Severity;
 
 import java.time.LocalDate;
@@ -24,7 +25,8 @@ public class Alert {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    private String alertType;
+    @Enumerated(EnumType.STRING)
+    private AlertType alertType;
 
     private LocalDate createdAt;
 

@@ -21,6 +21,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String hrEmail = "hr@test.com";
+        String employeeEmail = "employee@test.com";
 
         if(employeeRepository.findByEmail(hrEmail).isEmpty()){
             Employee hr = new Employee();
@@ -32,6 +33,17 @@ public class DataLoader implements CommandLineRunner {
 
             employeeRepository.save(hr);
             System.out.println("HR user created: " + hrEmail);
+
+            Employee employee = new Employee();
+            employee.setEmail(employeeEmail);
+            employee.setPassword(passwordEncoder.encode("emp"));
+            employee.setRole(Role.EMPLOYEE);
+            employee.setDepartment("Sales Department");
+            employee.setPosition("Seller");
+
+            employeeRepository.save(employee);
+            System.out.println("Employee user created: " + employeeEmail);
         }
+
     }
 }
