@@ -20,11 +20,11 @@ public class HRReport {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "alert_id", nullable = false)
+    @JoinColumn(name = "alert_id")
     private Alert alert;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Enumerated(EnumType.STRING)
@@ -33,6 +33,10 @@ public class HRReport {
     private String description;
 
     private LocalDate createdAt;
+
+    private LocalDate analysisFromDate;
+
+    private LocalDate analysisToDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;

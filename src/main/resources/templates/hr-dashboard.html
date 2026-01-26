@@ -1,79 +1,134 @@
 <!DOCTYPE html>
-<html lang="pl"
+<html lang="en"
       xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>HR Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
 </head>
+
 <body>
 
-<div class="container">
+<div class="dashboard">
 
-    <h1>HR – Analiza nastroju pracownika</h1>
+    <div class="dashboard-left">
+        <a th:href="@{/hr-dashboard/reports}">
+            <button type="button">View HR Reports</button>
+        </a>
 
-    <form th:action="@{/hr-dashboard}"
-          th:object="${form}"
+        <h1>HR – Employee Mood Analysis</h1>
+
+
+        <form th:action="@{/hr-dashboard/analyze}"
+              th:object="${form}"
+              method="post">
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
+
+            <div class="form-group">
+                <label for="employee">Employee</label>
+                <select id="employee" th:field="*{employeeId}">
+                    <option value="">-- choose employee --</option>
+                    <option th:each="emp : ${employees}"
+                            th:value="${emp.id}"
+                            th:text="${emp.email}">
+                    </option>
+                </select>
+                <div class="error" th:errors="*{employeeId}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="fromDate">From</label>
+                <input id="fromDate" type="date" th:field="*{fromDate}">
+                <div class="error" th:errors="*{fromDate}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="toDate">To</label>
+                <input id="toDate" type="date" th:field="*{toDate}">
+                <div class="error" th:errors="*{toDate}"></div>
+            </div>
+
+            <button type="submit">Analyze</button>
+        </form>
+
+
+
+        <div th:if="${entries != null}">
+            <h2>
+                Results from
+                <span th:text="${#temporals.format(form.fromDate, 'dd.MM.yyyy')}"></span>
+                to
+                <span th:text="${#temporals.format(form.toDate, 'dd.MM.yyyy')}"></span>
+            </h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Mood</th>
+                    <th>Workload</th>
+                    <th>Comfort</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${entries}">
+                    <td th:text="${#temporals.format(entry.entryDate, 'dd.MM.yyyy')}"></td>
+                    <td th:text="${entry.moodScore}"></td>
+                    <td th:text="${entry.workloadScore}"></td>
+                    <td th:text="${entry.comfortScore}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-right"
+          th:if="${entries != null}">
+
+    <h2>HR Report</h2>
+
+    <form th:action="@{/hr-dashboard/report}"
+          th:object="${reportForm}"
           method="post">
 
-        <!-- PRACOWNIK -->
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}"/>
+
+
+        <input type="hidden" th:field="*{employeeId}">
+        <input type="hidden" th:field="*{analysisFromDate}">
+        <input type="hidden" th:field="*{analysisToDate}">
+        <input type="hidden" th:field="*{alertId}">
+
         <div class="form-group">
-            <label>Pracownik</label>
-            <select th:field="*{employeeId}">
-                <option value="">-- wybierz pracownika --</option>
-                <option th:each="emp : ${employees}"
-                        th:value="${emp.id}"
-                        th:text="${emp.email}">
-                </option>
+            <label for="actionType">Action type</label>
+            <select id="actionType" th:field="*{actionType}">
+                <option value="">-- choose --</option>
+                <option value="report">report</option>
+                <option value="recommendation">recommendation</option>
+                <option value="meeting">meeting</option>
             </select>
-            <div class="error" th:errors="*{employeeId}"></div>
         </div>
 
-        <!-- DATA OD -->
         <div class="form-group">
-            <label>Od</label>
-            <input type="date" th:field="*{fromDate}">
-            <div class="error" th:errors="*{fromDate}"></div>
+            <label for="description">HR Description</label>
+            <textarea id="description"
+                      th:field="*{description}"
+                      placeholder="Write HR conclusions..."></textarea>
         </div>
 
-        <!-- DATA DO -->
-        <div class="form-group">
-            <label>Do</label>
-            <input type="date" th:field="*{toDate}">
-            <div class="error" th:errors="*{toDate}"></div>
-        </div>
-
-        <button type="submit">Analizuj</button>
+        <button type="submit">Save Report</button>
     </form>
+</div>
 
-    <!-- WYNIKI -->
-    <div th:if="${entries != null}">
-        <h2>
-            Wyniki od
-            <span th:text="${#temporals.format(fromDate, 'dd.MM.yyyy')}"></span>
-            do
-            <span th:text="${#temporals.format(toDate, 'dd.MM.yyyy')}"></span>
-        </h2>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Data</th>
-                <th>Mood</th>
-                <th>Workload</th>
-                <th>Comfort</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="entry : ${entries}">
-                <td th:text="${#temporals.format(entry.entryDate, 'dd.MM.yyyy')}"></td>
-                <td th:text="${entry.moodScore}"></td>
-                <td th:text="${entry.workloadScore}"></td>
-                <td th:text="${entry.comfortScore}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 
 </div>
 
