@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.przystawski.ems.employee_mood_system.config.security.CustomUserDetails;
 import pl.przystawski.ems.employee_mood_system.dto.request.DailyEntryRequest;
-import pl.przystawski.ems.employee_mood_system.model.DailyEntry;
+
 import pl.przystawski.ems.employee_mood_system.service.DailyEntryService;
 
-import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/daily-entry")

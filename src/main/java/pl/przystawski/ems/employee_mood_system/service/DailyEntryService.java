@@ -2,6 +2,7 @@ package pl.przystawski.ems.employee_mood_system.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.przystawski.ems.employee_mood_system.dto.request.DailyEntryRequest;
 import pl.przystawski.ems.employee_mood_system.model.DailyEntry;
 import pl.przystawski.ems.employee_mood_system.model.Employee;
@@ -15,10 +16,10 @@ import java.util.List;
 public class DailyEntryService {
 
     private final DailyEntryRepository dailyEntryRepository;
+    private final AlertService alertService;
 
 
-
-
+    @Transactional
     public DailyEntry addOrUpdateDailyEntry(
             Employee employee,
             DailyEntryRequest request
@@ -32,6 +33,7 @@ public class DailyEntryService {
         entry.setWorkloadScore(request.getWorkloadScore());
         entry.setComfortScore(request.getComfortScore());
 
+        alertService.checkLowMoodWeek(employee);
         return  dailyEntryRepository.save(entry);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.przystawski.ems.employee_mood_system.dto.request.HRReportRequest;
 import pl.przystawski.ems.employee_mood_system.dto.request.HrDashboardRequest;
+import pl.przystawski.ems.employee_mood_system.model.Alert;
 import pl.przystawski.ems.employee_mood_system.model.DailyEntry;
 import pl.przystawski.ems.employee_mood_system.service.EmployeeService;
 import pl.przystawski.ems.employee_mood_system.service.HrDashBoardService;
@@ -59,10 +60,13 @@ public class HrDashboardController {
         model.addAttribute("reportForm", new HRReportRequest());
         model.addAttribute("toDate", toDate);
 
-        List<DailyEntry> entries = hrDashBoardService.findEntriesInRange(employeeId,
+        List<DailyEntry> entries = hrDashBoardService.findEntriesInRange(
+                employeeId,
                 fromDate,
                 toDate
         );
+
+        List<Alert> alerts = hrDashBoardService.findAlertsForEmployee(employeeId);
 
         HRReportRequest reportForm = new HRReportRequest();
         reportForm.setEmployeeId(employeeId);
@@ -71,6 +75,7 @@ public class HrDashboardController {
 
         model.addAttribute("employees", employeeService.findAll());
         model.addAttribute("entries", entries);
+        model.addAttribute("alerts", alerts);
         model.addAttribute("reportForm", reportForm);
 
         return "hr-dashboard";

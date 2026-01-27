@@ -2,8 +2,10 @@ package pl.przystawski.ems.employee_mood_system.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.przystawski.ems.employee_mood_system.model.Alert;
 import pl.przystawski.ems.employee_mood_system.model.DailyEntry;
 import pl.przystawski.ems.employee_mood_system.model.Employee;
+import pl.przystawski.ems.employee_mood_system.repository.AlertRepository;
 import pl.przystawski.ems.employee_mood_system.repository.DailyEntryRepository;
 import pl.przystawski.ems.employee_mood_system.repository.EmployeeRepository;
 
@@ -16,7 +18,7 @@ public class HrDashBoardService {
 
     private final DailyEntryRepository dailyEntryRepository;
     private final EmployeeRepository employeeRepository;
-
+    private final AlertRepository alertRepository;
 
     public List<DailyEntry> findEntriesInRange(Long employeeId,
                                                LocalDate fromDate,
@@ -26,5 +28,9 @@ public class HrDashBoardService {
                 .orElseThrow(() -> new IllegalArgumentException("Employee not found"));
 
         return dailyEntryRepository.findAllByEmployeeAndEntryDateBetween(employee, fromDate, toDate);
+    }
+
+    public List<Alert> findAlertsForEmployee(Long employeeId) {
+        return alertRepository.findByEmployeeIdOrderByCreatedAtDesc(employeeId);
     }
 }
