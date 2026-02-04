@@ -1,0 +1,52 @@
+# Employee Mood System
+
+Aplikacja stworzona z myślą o pracownikach, służąca do oceny i analizy ich samopoczucia podczas pracy.
+
+#Modele (entity)
+
+- Alert -> encja służaca do zapisywania automatycznie wygenerowanych alertów przez system
+- DailyEntry -> encja służaca do przechowywania informacji o coodzienym samopoczuciu pracowników
+- Employee -> encja służaca do przechowywania informacji o pracownikach (pełni role użytkownika systemu)
+- HRReport -> encja służaca do przechowywania informacji na temat tego jak pracownik z HR ocenia stan psychiczny pracownika
+
+#Service
+
+- AlertService -> serwis odpowiedzialny za kontrolę nastroju pracowników
+- DailyEntryService -> serwis odpowiedzialny za za zapis lub edytowanie dzienengo nastroju pracownika oraz wyszukiwania historii nastrojów użytkownika
+- EmployeeService -> wyszukuje pracowników
+- HrDashBoardService -> serwis służący do obsługi panelu wykorzystywanego przez pracownika z HR
+- HRReportService -> serwis służacy do zarządzania raportami
+
+#Controller
+
+- DailyEntryViewController -> przedstawia formularz w którym użytkownik przekazuje dane na temat swojego nastroju
+- EmployeeHRReportController -> prezdstawia wszystkie raporty na temat użytkownika
+- HrDashBoardController -> panel pracowników HR służący do anlizy nastroju pracowników
+- HRReportController -> rozdzielenie odpowiedzialności względem HrDashBoardController służące do dodawania raportów.
+
+
+#Security
+
+- CustomUserDetails -> implemetacja UserDetails
+- CustomUserDetailsService -> implementacja UserDetailsService konkretnie szukanie po pracowniku
+- SecurityConfig -> blokada dostępu do endpointów, rozdzielanie ich między ROLE
+
+
+#DTO REQUEST -> reprezentacja danych w żądaniu HTTP, dla projektu jest to łatwiejsza walidacja danych oraz bezpieczeństwa
+
+#enums
+
+-ActionType -> wybór akcji dla raportu HR
+- AlertTYpe -> akcja dla systemu automatycznych alertów
+- Role ->  uprawnienia pracownika
+- Severity -> Powaga "raportu", tj powaga zagrożenia nastroju pracownika
+- Status -> status realizacji raportu (w kontekście czy zadano już o zdrowie psychiczne pracownika)
+
+
+#init
+
+- DataLoader -> inicjalizuje pracowików jeśli nie ma żadnego
+
+#Repository -> komunikacja/operacje na bazie danych
+
+#Resources -> pliki css oraz html a także pliki konfiguracyjne.
