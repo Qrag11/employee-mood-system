@@ -35,10 +35,12 @@
     </form>
 
     <div class="actions">
-        <a th:href="@{/daily-entry/history}">History</a>
+        <a th:href="@{/daily-entry/history}">
+            <button type="button">History</button>
+        </a>
         <a sec:authorize="hasRole('HR')"
            th:href="@{/hr-dashboard}">
-            Mood analysis
+            <button type="button">Mood analysis</button>
         </a>
     </div>
 
