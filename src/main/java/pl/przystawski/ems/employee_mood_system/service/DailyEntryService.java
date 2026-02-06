@@ -33,7 +33,7 @@ public class DailyEntryService {
         entry.setWorkloadScore(request.getWorkloadScore());
         entry.setComfortScore(request.getComfortScore());
 
-        alertService.checkLowMoodWeek(employee);
+        alertService.checkWorkWellbeing(employee);
         return  dailyEntryRepository.save(entry);
     }
 

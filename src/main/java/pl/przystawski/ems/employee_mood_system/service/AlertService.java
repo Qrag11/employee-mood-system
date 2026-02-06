@@ -20,7 +20,7 @@ public class AlertService {
     private final DailyEntryRepository dailyEntryRepository;
     private final AlertRepository alertRepository;
 
-    public void checkLowMoodWeek(Employee employee){
+    public void checkWorkWellbeing(Employee employee){
         LocalDate today = LocalDate.now();
         LocalDate weekStart = today.with(DayOfWeek.MONDAY);
         LocalDate weekEnd = today.with(DayOfWeek.SUNDAY);
