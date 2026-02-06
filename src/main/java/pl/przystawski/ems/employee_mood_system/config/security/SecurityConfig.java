@@ -26,14 +26,20 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/api/**")
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/css/**", "/js/**", "/logout").permitAll()
                         .requestMatchers("/api/**", "/employee/**").hasAnyRole("HR", "EMPLOYEE")
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/hr-dashboard/**").hasRole("HR")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .defaultSuccessUrl("/daily-entry", true))
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
+
 
         return http.build();
     }

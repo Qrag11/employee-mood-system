@@ -7,7 +7,19 @@
     <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
 </head>
 <body>
+<header class="top-bar">
+    <div class="left">
+        <span class="app-name">Employee Mood System</span>
+    </div>
 
+    <div class="right">
+        <span sec:authentication="name"></span>
+
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</header>
 <h1>Your Daily Entries</h1>
 
 <div th:if="${#lists.isEmpty(entries)}">

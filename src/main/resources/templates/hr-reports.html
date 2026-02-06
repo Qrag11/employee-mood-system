@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>HR Reports</title>
     <link rel="stylesheet" th:href="@{/css/daily-entry.css}">
 </head>
 <body>
+<header class="top-bar">
+    <div class="left">
+        <span class="app-name">Employee Mood System</span>
+    </div>
 
+    <div class="right">
+        <span sec:authentication="name"></span>
+
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</header>
 <div class="page-container">
 
     <div class="page-header">
