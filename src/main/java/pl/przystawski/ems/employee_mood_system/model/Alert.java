@@ -30,6 +30,10 @@ public class Alert {
 
     private LocalDate createdAt;
 
+    private LocalDate weekStart;
+
+    private LocalDate weekEnd;
+
     @Enumerated(EnumType.STRING)
     private Severity severity;
 

@@ -13,7 +13,8 @@ public interface AlertRepository extends JpaRepository<Alert, Long> {
     boolean existsByEmployeeAndAlertTypeAndCreatedAt(
             Employee employee,
             AlertType alertType,
-            LocalDate createdAt
+            LocalDate weekStart,
+            LocalDate weekEnd
     );
 
     List<Alert> findByEmployeeIdOrderByCreatedAtDesc(Long employeeId);
