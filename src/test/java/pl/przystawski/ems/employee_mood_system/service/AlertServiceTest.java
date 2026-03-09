@@ -27,6 +27,17 @@ public class AlertServiceTest {
     @InjectMocks
     AlertService alertService;
 
+
+    private DailyEntry entry (int mood, int workload, int comfort){
+        DailyEntry dailyEntry = new DailyEntry();
+
+        dailyEntry.setMoodScore(mood);
+        dailyEntry.setWorkloadScore(workload);
+        dailyEntry.setComfortScore(comfort);
+
+        return dailyEntry;
+    }
+
     @Test
     void shouldCreateAlertWhenLowMoodOccursMoreThanTwoTimes(){
         Employee employee = new Employee();
@@ -186,13 +197,5 @@ public class AlertServiceTest {
     }
 
 
-    private DailyEntry entry (int mood, int workload, int comfort){
-        DailyEntry dailyEntry = new DailyEntry();
 
-        dailyEntry.setMoodScore(mood);
-        dailyEntry.setWorkloadScore(workload);
-        dailyEntry.setComfortScore(comfort);
-
-        return dailyEntry;
-    }
 }
