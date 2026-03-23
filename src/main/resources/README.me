@@ -29,6 +29,26 @@ Aplikacja opiera się na następujących encjach:
 * Alert – alert generowany automatycznie przez system
 * HRReport – raport tworzony przez dział HR
 
+### Relacje
+
+Model danych wykorzystuje relacje typu jeden-do-wielu:
+
+* `Employee` → `DailyEntry` (1:N)
+  jeden pracownik może posiadać wiele wpisów nastroju
+  każdy wpis nastroju należy do jednego pracownika
+
+* `Employee` → `Alert` (1:N)
+  jeden pracownik może mieć wiele alertów generowanych przez system
+  każdy alert dotyczy jednego pracownika
+
+* `Employee` → `HRReport` (1:N)
+  jeden pracownik może mieć wiele raportów HR
+  każdy raport dotyczy jednego pracownika
+
+* `Alert` → `HRReport` (1:N)
+  jeden alert może być powiązany z wieloma raportami HR
+  raport HR może odnosić się do konkretnego alertu
+
 ---
 
 ### Warstwa serwisów
@@ -54,7 +74,7 @@ Aplikacja opiera się na następujących encjach:
 
 * EmployeeService
 
-    * wyszukanie pracowników
+    * wyszukiwanie pracowników
 
 ---
 
@@ -79,7 +99,7 @@ Zaimplementowano mechanizm uwierzytelniania i autoryzacji przy użyciu Spring Se
   * `EMPLOYEE`
   * `HR`
 * ograniczenie dostępu do endpointów na podstawie ról
-* kodowanie haseł
+* bezpieczne przechowywanie haseł (BCrypt)
 
 ---
 
