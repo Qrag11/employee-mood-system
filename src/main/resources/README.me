@@ -1,52 +1,141 @@
 # Employee Mood System
 
-Aplikacja stworzona z myślą o pracownikach, służąca do oceny i analizy ich samopoczucia podczas pracy.
+##  Opis projektu
 
-#Modele (entity)
+Employee Mood System to aplikacja backendowa stworzona w Javie (Spring Boot), której celem jest monitorowanie samopoczucia pracowników oraz wspieranie działu HR w identyfikowaniu potencjalnych problemów w zespole.
 
-- Alert -> encja służaca do zapisywania automatycznie wygenerowanych alertów przez system
-- DailyEntry -> encja służaca do przechowywania informacji o coodzienym samopoczuciu pracowników
-- Employee -> encja służaca do przechowywania informacji o pracownikach (pełni role użytkownika systemu)
-- HRReport -> encja służaca do przechowywania informacji na temat tego jak pracownik z HR ocenia stan psychiczny pracownika
+System umożliwia pracownikom codzienne raportowanie nastroju, a na podstawie zgromadzonych danych analizuje trendy oraz generuje alerty w przypadku wykrycia niepokojących zmian. Dział HR ma dostęp do panelu umożliwiającego przegląd danych oraz podejmowanie działań na podstawie raportów.
 
-#Service
+---
 
-- AlertService -> serwis odpowiedzialny za kontrolę nastroju pracowników
-- DailyEntryService -> serwis odpowiedzialny za za zapis lub edytowanie dzienengo nastroju pracownika oraz wyszukiwania historii nastrojów użytkownika
-- EmployeeService -> wyszukuje pracowników
-- HrDashBoardService -> serwis służący do obsługi panelu wykorzystywanego przez pracownika z HR
-- HRReportService -> serwis służacy do zarządzania raportami
+##  Funkcjonalności
 
-#Controller
+* dodawanie i edycja codziennych wpisów nastroju
+* przegląd historii nastrojów pracownika
+* analiza trendów nastroju w czasie
+* automatyczne generowanie alertów
+* panel HR do analizy pracowników
+* tworzenie i zarządzanie raportami HR
+* filtrowanie danych
 
-- DailyEntryViewController -> przedstawia formularz w którym użytkownik przekazuje dane na temat swojego nastroju
-- EmployeeHRReportController -> prezdstawia wszystkie raporty na temat użytkownika
-- HrDashBoardController -> panel pracowników HR służący do anlizy nastroju pracowników
-- HRReportController -> rozdzielenie odpowiedzialności względem HrDashBoardController służące do dodawania raportów.
+---
 
+## Model danych
 
-#Security
+Aplikacja opiera się na następujących encjach:
 
-- CustomUserDetails -> implemetacja UserDetails
-- CustomUserDetailsService -> implementacja UserDetailsService konkretnie szukanie po pracowniku
-- SecurityConfig -> blokada dostępu do endpointów, rozdzielanie ich między ROLE
+* Employee – użytkownik systemu
+* DailyEntry – zapis codziennego nastroju
+* Alert – alert generowany automatycznie przez system
+* HRReport – raport tworzony przez dział HR
 
+---
 
-#DTO REQUEST -> reprezentacja danych w żądaniu HTTP, dla projektu jest to łatwiejsza walidacja danych oraz bezpieczeństwa
+### Warstwa serwisów
 
-#enums
+* DailyEntryService
 
--ActionType -> wybór akcji dla raportu HR
-- AlertTYpe -> akcja dla systemu automatycznych alertów
-- Role ->  uprawnienia pracownika
-- Severity -> Powaga "raportu", tj powaga zagrożenia nastroju pracownika
-- Status -> status realizacji raportu (w kontekście czy zadano już o zdrowie psychiczne pracownika)
+  * zapis i edycja nastroju
+  * pobieranie historii użytkownika
 
+* AlertService
 
-#init
+  * analiza danych
+  * wykrywanie niepokojących trendów
+  * generowanie alertów
 
-- DataLoader -> inicjalizuje pracowików jeśli nie ma żadnego
+* HRReportService
 
-#Repository -> komunikacja/operacje na bazie danych
+  * zarządzanie raportami HR
 
-#Resources -> pliki css oraz html a także pliki konfiguracyjne.
+* HrDashboardService
+  * agreguje i przetwarza dane dotyczące nastrojów pracowników
+  * przygotowuje dane do analizy w panelu HR
+
+* EmployeeService
+
+    * wyszukanie pracowników
+
+---
+
+## Kontrolery
+
+Aplikacja udostępnia endpointy oraz widoki umożliwiające:
+
+* zarządzanie wpisami nastroju
+* przegląd raportów HR
+* obsługę panelu HR
+
+---
+
+## Bezpieczeństwo
+
+Zaimplementowano mechanizm uwierzytelniania i autoryzacji przy użyciu Spring Security:
+
+* własna implementacja `UserDetails` oraz `UserDetailsService`
+* uwierzytelnianie użytkowników na podstawie danych z bazy
+* role użytkowników:
+
+  * `EMPLOYEE`
+  * `HR`
+* ograniczenie dostępu do endpointów na podstawie ról
+* kodowanie haseł
+
+---
+
+## DTO
+
+Zastosowano wzorzec DTO (Data Transfer Object) w celu:
+
+* walidacji danych wejściowych
+* oddzielenia warstwy API od modelu bazy danych
+* zwiększenia bezpieczeństwa aplikacji
+
+---
+
+## Enumy
+
+W projekcie wykorzystano enumy do modelowania logiki biznesowej:
+
+* `Role` – role użytkowników
+* `Severity` – poziom zagrożenia
+* `Status` – status raportu
+* `ActionType` – akcje HR
+* `AlertType` – typ alertów
+
+---
+
+## Technologie
+
+* Java 17
+* Spring Boot
+* Spring Security
+* Spring Data JPA (Hibernate)
+* Maven
+* H2 / PostgreSQL
+* JUnit + Mockito
+
+---
+
+## Testy
+
+Projekt zawiera testy jednostkowe dla wybranych serwisów, w tym testy logiki biznesowej.
+
+---
+
+## Inicjalizacja danych
+
+* `DataLoader` – inicjalizuje przykładowych użytkowników przy starcie aplikacji
+
+---
+
+## Czego się nauczyłem
+
+* projektowania REST API
+* pracy z relacyjną bazą danych
+* implementacji zabezpieczeń (Spring Security)
+* stosowania wzorca DTO
+* organizacji kodu w architekturze warstwowej
+* pisania testów jednostkowych
+
+---
